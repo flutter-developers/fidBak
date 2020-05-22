@@ -3,8 +3,6 @@ always_test_in_this
 another_test
 bloc_pattern_basic
 contacts_app
-android/settings_aar.gradle
-ios/Runner/Assets.xcassets/AppIcon.appiconset/ItunesArtwork@2x.png
 firebase_tut
 flutter_blog_app
 flutter_firebase
