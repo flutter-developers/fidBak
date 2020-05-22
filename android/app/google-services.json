@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "2122432307",
+    "firebase_url": "https://feedback-system-vnrcse.firebaseio.com",
+    "project_id": "feedback-system-vnrcse",
+    "storage_bucket": "feedback-system-vnrcse.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:2122432307:android:a7759fc54169afa0e0c846",
+        "android_client_info": {
+          "package_name": "com.example.feedback_system"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "2122432307-qtvd1udb1nkbt5g60qhvu9uqo8kirf4r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARNduQR4BjqdmU02zPkrYhAeHSW62T4ys"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "2122432307-qtvd1udb1nkbt5g60qhvu9uqo8kirf4r.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "2122432307-scpg99gmup39gttvh3nbudmcvvipdmts.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.feedbackSystem"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:2122432307:android:b589eaf7b1886f08e0c846",
+        "android_client_info": {
+          "package_name": "com.example.fidbak"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "2122432307-qtvd1udb1nkbt5g60qhvu9uqo8kirf4r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARNduQR4BjqdmU02zPkrYhAeHSW62T4ys"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "2122432307-qtvd1udb1nkbt5g60qhvu9uqo8kirf4r.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "2122432307-scpg99gmup39gttvh3nbudmcvvipdmts.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.feedbackSystem"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
