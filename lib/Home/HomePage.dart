@@ -1,11 +1,11 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fidbak/FeedbackModification/EditFeedback.dart';
+import 'package:fidbak/Public/Loading.dart';
 import 'package:fidbak/QRCode/Scanner.dart';
 import 'package:fidbak/Services/AuthManagement.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -91,7 +91,7 @@ class _HomePageState extends State<HomePage> {
           if (snapshot.hasData) {
             return userContent();
           } else {
-            return loading();
+            return Loading();
           }
         },
       ),
@@ -106,13 +106,6 @@ class _HomePageState extends State<HomePage> {
           },
           tooltip: 'QR Scanner'),
     );
-  }
-
-  loading() {
-    return Center(
-        child: SpinKitWave(
-      color: Colors.blue,
-    ));
   }
 
   userContent() {
@@ -154,7 +147,7 @@ class _HomePageState extends State<HomePage> {
             !snapshot.hasData) {
           return Center(child: Text('No active feedbacks'));
         } else {
-          return loading();
+          return Loading();
         }
       },
     );

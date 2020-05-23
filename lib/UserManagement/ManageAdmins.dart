@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fidbak/Public/Loading.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:progress_dialog/progress_dialog.dart';
@@ -95,7 +95,7 @@ class _ManageAdminsState extends State<ManageAdmins> {
           if (snapshot.hasData) {
             return listWidget();
           } else {
-            return loading();
+            return Loading();
           }
         },
       ),
@@ -188,7 +188,7 @@ class _ManageAdminsState extends State<ManageAdmins> {
             !snapshot.hasData) {
           return Center(child: Text('No Admins'));
         } else {
-          return loading();
+          return Loading();
         }
       },
     );
@@ -242,12 +242,5 @@ class _ManageAdminsState extends State<ManageAdmins> {
     } else {
       Fluttertoast.showToast(msg: 'Permission denied☹️');
     }
-  }
-
-  loading() {
-    return Center(
-        child: SpinKitWave(
-      color: Colors.blue,
-    ));
   }
 }

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fidbak/Public/Loading.dart';
 import 'package:fidbak/Services/AuthManagement.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/material.dart';
 
 class ClosedFeedbacks extends StatefulWidget {
@@ -61,15 +61,11 @@ class _ClosedFeedbacksState extends State<ClosedFeedbacks> {
           if (snapshot.hasData) {
             return closedList();
           } else {
-            return loading();
+            return Loading();
           }
         },
       ),
     );
-  }
-
-  loading() {
-    return Center(child: SpinKitWave(color: Colors.blue,));
   }
 
   closedList() {
@@ -98,7 +94,7 @@ class _ClosedFeedbacksState extends State<ClosedFeedbacks> {
         } else if(snapshot.connectionState == ConnectionState.done && !snapshot.hasData) {
           return userContent();
         } else {
-          return loading();
+          return Loading();
         }
       },
     );

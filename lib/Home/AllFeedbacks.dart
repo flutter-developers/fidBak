@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fidbak/FeedbackModification/EditFeedback.dart';
+import 'package:fidbak/Public/Loading.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AllFeedbacks extends StatefulWidget {
@@ -36,7 +36,7 @@ class _AllFeedbacksState extends State<AllFeedbacks> {
           if(snapshot.hasData) {
             return rootContent();
           } else {
-            return loading();
+            return Loading();
           }
         }
       ),
@@ -96,20 +96,14 @@ class _AllFeedbacksState extends State<AllFeedbacks> {
                   !snapshot.hasData) {
                 return Center(child: Text('No active feedbacks'));
               } else {
-                return loading();
+                return Loading();
               }
             },
           );
         } else {
-          return loading();
+          return Loading();
         }
       },
-    );
-  }
-
-  loading() {
-    return Center(
-      child: SpinKitWave(color: Colors.blue,),
     );
   }
 }

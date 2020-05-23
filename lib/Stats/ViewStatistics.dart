@@ -1,9 +1,9 @@
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fidbak/Public/Loading.dart';
 import 'package:fidbak/Stats/IndividualStats.dart';
 import 'package:fidbak/Stats/StatisticsUtil.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Statistics extends StatefulWidget {
   final String docId;
@@ -62,18 +62,11 @@ class _StatisticsState extends State<Statistics> {
               },
             );
           } else {
-            return loading();
+            return Loading();
           }
         },
       ),
     );
-  }
-
-  loading() {
-    return Center(
-        child: SpinKitWave(
-      color: Colors.blue,
-    ));
   }
 
   Future<bool> setData() async {

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fidbak/Public/Loading.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:progress_dialog/progress_dialog.dart';
@@ -35,7 +35,7 @@ class _ManageRootState extends State<ManageRoot> {
           if(snapshot.hasData) {
             return rootUserList();
           } else {
-            return loading();
+            return Loading();
           }
         }
       ),
@@ -105,16 +105,9 @@ class _ManageRootState extends State<ManageRoot> {
             !snapshot.hasData) {
           return Center(child: Text('No Admins'));
         } else {
-          return loading();
+          return Loading();
         }
       }
     );
-  }
-
-  loading() {
-    return Center(
-        child: SpinKitWave(
-      color: Colors.blue,
-    ));
   }
 }
