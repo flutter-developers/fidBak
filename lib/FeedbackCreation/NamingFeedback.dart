@@ -115,6 +115,7 @@ class _NamingFeedbackState extends State<NamingFeedback> {
           setState(() {
             fileNeeded = list.isNotEmpty;
             if(!fileNeeded) {
+              // Admin lifted restriction on feedback, so clear the emails list and file
               file = null;
               emails.clear();
             }

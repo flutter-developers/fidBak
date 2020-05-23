@@ -31,7 +31,6 @@ class QuestionDialog extends StatefulWidget {
 }
 
 class _QuestionDialogState extends State<QuestionDialog> {
-  // MetricType _metricType = widget.question.metricType;
   MetricType _metricType = MetricType.SmileyRating;
   @override
   Widget build(BuildContext context) {
@@ -163,6 +162,7 @@ class _CreateFeedbackState extends State<CreateFeedback> {
 
   @override
   Widget build(BuildContext context) {
+    // Gets the width of the screen
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
@@ -174,6 +174,8 @@ class _CreateFeedbackState extends State<CreateFeedback> {
               color: Colors.white,
             ),
             onPressed: () async {
+              // Navigating to take Question and Metric as an input
+              // Page returns back the data, So store the returned data in questionReference
               dynamic questionReference = await Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -181,6 +183,7 @@ class _CreateFeedbackState extends State<CreateFeedback> {
                         QuestionDialog("Create Question", Question()),
                   ));
               if (questionReference != null) {
+                // User filled the question details
                 questionsList.add(questionReference);
               }
             },
@@ -192,6 +195,7 @@ class _CreateFeedbackState extends State<CreateFeedback> {
             Divider(height: 1.0, color: Colors.grey),
         itemCount: questionsList.length,
         itemBuilder: (context, index) {
+          // Dismissible widget enables swipe to delete
           return Dismissible(
               key: Key(questionsList[index].questionData),
               onDismissed: (direction) {
@@ -202,6 +206,7 @@ class _CreateFeedbackState extends State<CreateFeedback> {
                   content: Text('Question deleted'),
                 )));
               },
+              // background and secondaryBackground attributes are used to control the content on sliding left and right respectively
               background: slideBackground('start'),
               secondaryBackground: slideBackground('end'),
               child: ListTile(
@@ -229,8 +234,10 @@ class _CreateFeedbackState extends State<CreateFeedback> {
             color: Colors.blue,
             child: Text('Post'),
             onPressed: () async {
+              // Getting user email
               SharedPreferences _prefs = await SharedPreferences.getInstance();
               String email = _prefs.getString("email");
+              // Creating feedback object from collected data
               FeedbackModel feedback = new FeedbackModel(
                   //Modify Here
                   questionsList,
@@ -239,6 +246,7 @@ class _CreateFeedbackState extends State<CreateFeedback> {
                   widget.host,
                   widget.allAttenders,
                   email);
+              // Utility method to post the created feedback object to database
               CrudMethods().postFeedback(context, feedback);
             },
           ),

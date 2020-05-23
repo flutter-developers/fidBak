@@ -9,9 +9,11 @@ class CrudMethods {
 
   // addData, getData, updateData
   postFeedback(context, feedback) {
+    // Start showing progress indicator
     ProgressDialog pr = new ProgressDialog(context, isDismissible: false);
     pr.style(message: 'Generating QR Code');
     pr.show();
+    // Generating unique ID for the feedback that is being hosted, alternative to QR Code
     int uniqueId = new DateTime.now().millisecondsSinceEpoch ~/ 1000;
     Firestore.instance.collection('feedbacks').add({
       'id': uniqueId,
@@ -28,8 +30,9 @@ class CrudMethods {
       'attenders': feedback.allAttenders,
       'restricted': feedback.restricted
     }).then((doc) {
+      // Hide the progress indicator
       pr.hide();
-      print(doc.documentID);
+      // Redirect to QR code generator screen
       Navigator.push(
         context,
         MaterialPageRoute(
