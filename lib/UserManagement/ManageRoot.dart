@@ -25,6 +25,7 @@ class _ManageRootState extends State<ManageRoot> {
     return isRoot;
   }
 
+  // UI code starts
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,30 +51,6 @@ class _ManageRootState extends State<ManageRoot> {
         },
       ),
     );
-  }
-
-  createNewManager() async {
-
-  }
-
-  removeUser(email) async {
-    if(isRoot) {
-      var rootDocs = await Firestore.instance
-        .collection('/root')
-        .where('email', isEqualTo: email)
-        .getDocuments();
-      
-      await Firestore.instance
-            .collection('/root')
-            .document(rootDocs.documents[0].documentID)
-            .delete()
-            .catchError((e) {
-          print(e);
-        });
-        Fluttertoast.showToast(msg: 'Successfully removed😄');
-    } else {
-      Fluttertoast.showToast(msg: 'Permission Denied☹️');
-    }
   }
 
   rootUserList() {
@@ -109,5 +86,27 @@ class _ManageRootState extends State<ManageRoot> {
         }
       }
     );
+  }
+  // UI code ends
+  
+  // Logic starts
+  removeUser(email) async {
+    if(isRoot) {
+      var rootDocs = await Firestore.instance
+        .collection('/root')
+        .where('email', isEqualTo: email)
+        .getDocuments();
+      
+      await Firestore.instance
+            .collection('/root')
+            .document(rootDocs.documents[0].documentID)
+            .delete()
+            .catchError((e) {
+          print(e);
+        });
+        Fluttertoast.showToast(msg: 'Successfully removed😄');
+    } else {
+      Fluttertoast.showToast(msg: 'Permission Denied☹️');
+    }
   }
 }

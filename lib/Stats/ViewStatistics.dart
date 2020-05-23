@@ -22,11 +22,26 @@ class _StatisticsState extends State<Statistics> {
   var scores;
   var _data;
 
+  // Initial code starts
   @override
   void initState() {
     super.initState();
   }
+  
+  Future<bool> setData() async {
+    var data = await Firestore.instance
+        .collection('/feedbacks')
+        .document(widget.docId)
+        .get();
+    setState(() {
+      _data = data;
+    });
+    stats = new Stats(widget.docId, _data);
+    return true;
+  }
+  // Initial code ends
 
+  // UI code starts
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width - 10;
@@ -68,19 +83,9 @@ class _StatisticsState extends State<Statistics> {
       ),
     );
   }
+  // UI code ends
 
-  Future<bool> setData() async {
-    var data = await Firestore.instance
-        .collection('/feedbacks')
-        .document(widget.docId)
-        .get();
-    setState(() {
-      _data = data;
-    });
-    stats = new Stats(widget.docId, _data);
-    return true;
-  }
-
+  // Logic starts
   List<charts.Series<QuestionStat, String>> scoresToStatList(
       scores, metricType) {
     var goal = ['Yes', 'Partially', 'No'];

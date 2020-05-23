@@ -15,6 +15,7 @@ class _AddManagerState extends State<AddManager> {
   String _email;
   List<String> departments = new List<String>();
 
+  // Form validators
   validateAndSave() {
     final form = formKey.currentState;
 
@@ -60,6 +61,7 @@ class _AddManagerState extends State<AddManager> {
     }
   }
 
+  // UI code starts
   @override
   Widget build(BuildContext context) {
     return Scaffold(

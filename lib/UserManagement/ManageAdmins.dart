@@ -20,6 +20,7 @@ class _ManageAdminsState extends State<ManageAdmins> {
   List<dynamic> _list = List<dynamic>();
   Icon appBarIcon = Icon(Icons.search);
 
+  // Initial code starts
   @override
   void initState() {
     super.initState();
@@ -35,48 +36,9 @@ class _ManageAdminsState extends State<ManageAdmins> {
 
     return isRoot;
   }
+  // Initial code ends
 
-  createNewAdmin() async {
-    var userDocs = await Firestore.instance
-        .collection('/users')
-        .where('email', isEqualTo: newAdminEmail)
-        .getDocuments();
-
-    if (userDocs.documents.length == 0) {
-      Fluttertoast.showToast(msg: 'User doesn\'t exist');
-      return;
-    } else {
-      userDocs.documents.forEach((d) async {
-        await Firestore.instance
-            .collection('/users')
-            .document(d.documentID)
-            .updateData({'isadmin': true}).then((val) {
-          Fluttertoast.showToast(msg: 'Successfully added');
-        }).catchError((e) {
-          print(e);
-        });
-      });
-    }
-  }
-
-  searchPressed() {
-    if (this.appBarIcon.icon == Icons.search) {
-      this.appBarIcon = Icon(Icons.close);
-      this.appBarContent = TextField(
-        decoration: InputDecoration(hintText: 'Search admins'),
-        onChanged: (value) {
-          setState(() {
-            query = value;
-          });
-        },
-      );
-    } else {
-      this.appBarIcon = Icon(Icons.search);
-      this.appBarContent = new Text('Manage admins');
-      query = '';
-    }
-  }
-
+  // UI code starts
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -192,6 +154,49 @@ class _ManageAdminsState extends State<ManageAdmins> {
         }
       },
     );
+  }
+  // UI code ends
+
+  // Logic starts
+  createNewAdmin() async {
+    var userDocs = await Firestore.instance
+        .collection('/users')
+        .where('email', isEqualTo: newAdminEmail)
+        .getDocuments();
+
+    if (userDocs.documents.length == 0) {
+      Fluttertoast.showToast(msg: 'User doesn\'t exist');
+      return;
+    } else {
+      userDocs.documents.forEach((d) async {
+        await Firestore.instance
+            .collection('/users')
+            .document(d.documentID)
+            .updateData({'isadmin': true}).then((val) {
+          Fluttertoast.showToast(msg: 'Successfully added');
+        }).catchError((e) {
+          print(e);
+        });
+      });
+    }
+  }
+
+  searchPressed() {
+    if (this.appBarIcon.icon == Icons.search) {
+      this.appBarIcon = Icon(Icons.close);
+      this.appBarContent = TextField(
+        decoration: InputDecoration(hintText: 'Search admins'),
+        onChanged: (value) {
+          setState(() {
+            query = value;
+          });
+        },
+      );
+    } else {
+      this.appBarIcon = Icon(Icons.search);
+      this.appBarContent = new Text('Manage admins');
+      query = '';
+    }
   }
 
   removeUser(user) async {
