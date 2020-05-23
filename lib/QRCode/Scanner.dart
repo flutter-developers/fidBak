@@ -86,6 +86,7 @@ class _ScannerState extends State<Scanner> {
                       style: TextStyle(color: Colors.white),
                     ),
                     onPressed: () async {
+                      // User is using 10-digit code to give the feedback
                       await navigateWithCode();
                     },
                   ),

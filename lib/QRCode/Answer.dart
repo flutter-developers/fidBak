@@ -31,6 +31,10 @@ class _AnswerState extends State<Answer> {
 
   // Initial code starts
   instantiate() async {
+    // Answer.dart constructor receives document ID from the QR Scanner
+    // Fetch the feedback from the given document ID
+    // If no feedback exists with given ID, mark data variable as 'Error'
+    // Else set the variable to the feedback data
     await Firestore.instance
         .collection('/feedbacks')
         .document(widget.data)
@@ -69,16 +73,16 @@ class _AnswerState extends State<Answer> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     if (data == null)
-      return SpinKitThreeBounce(color: Colors.blue);
+      return SpinKitThreeBounce(color: Colors.blue); // Data is still loading
     else if (data == 'Error')
-      return stopUser('Feedback no longer exists');
+      return stopUser('Feedback no longer exists'); // Not a valid document ID
     else if (data['attended'].contains(email))
-      return stopUser('Can\'t give feedback more than once');
+      return stopUser('Can\'t give feedback more than once'); // User already gave the feedback
     else if(data['restricted']==true && !data['attenders'].contains(email)) {
-      return stopUser('You\'re not allowed to answer this feedback');
+      return stopUser('You\'re not allowed to answer this feedback'); // Feedback is restricted to limited users
     }
     else
-      return fetchDocument(width);
+      return fetchDocument(width); // User is allowed to give the feedback
   }
 
   stopUser(data) {
@@ -107,6 +111,7 @@ class _AnswerState extends State<Answer> {
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () async {
+                  // User clicked submit
                   uploadFeedback(context);
                 },
               ),
@@ -129,7 +134,7 @@ class _AnswerState extends State<Answer> {
                 SizedBox(
                   height: 5,
                 ),
-                metric(index)
+                metric(index) // Renders widget accordingly to the question
               ],
             ),
           );
@@ -185,10 +190,13 @@ class _AnswerState extends State<Answer> {
 
   // Logic starts
   uploadFeedback(context) {
+    // Start showing progress indicator
     ProgressDialog pr = new ProgressDialog(context);
     pr.style(message: 'Submitting response');
     pr.show();
     var ref = Firestore.instance.collection('/feedbacks').document(widget.data);
+    
+    // Following transaction uploads the user response
     Firestore.instance.runTransaction((tx) async {
       await ref.get().then((doc) {
         var prev = doc['scores'];

@@ -73,10 +73,15 @@ class _ClosedFeedbacksState extends State<ClosedFeedbacks> {
 
   closedList() {
     return StreamBuilder(
-      stream: Firestore.instance.collection('/feedbacks').where('host_id',isEqualTo: email).where('status',isEqualTo: "close").snapshots(),
+      // Fetch all the *closed* feedbacks hosted by the *current user* 
+      stream: Firestore.instance
+          .collection('/feedbacks')
+          .where('host_id', isEqualTo: email)
+          .where('status', isEqualTo: "close")
+          .snapshots(),
       builder: (context, snapshot) {
-        if(snapshot.hasData) {
-          if(snapshot.data.documents.length == 0) return emptyContent();
+        if (snapshot.hasData) {
+          if (snapshot.data.documents.length == 0) return emptyContent();
           return ListView.separated(
             separatorBuilder: (context, index) =>
                 Divider(height: 1.0, color: Colors.grey),
@@ -88,13 +93,12 @@ class _ClosedFeedbacksState extends State<ClosedFeedbacks> {
                 title: Text(feedback.data['name']),
                 subtitle: Text('Host : ' + feedback.data['host']),
                 trailing: Text(feedback.data['type'] ?? ""),
-                onTap: () {
-                  
-                },
+                onTap: () {},
               );
             },
           );
-        } else if(snapshot.connectionState == ConnectionState.done && !snapshot.hasData) {
+        } else if (snapshot.connectionState == ConnectionState.done &&
+            !snapshot.hasData) {
           return emptyContent();
         } else {
           return Loading();

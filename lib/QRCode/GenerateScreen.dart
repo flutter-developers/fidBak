@@ -134,11 +134,13 @@ class GenerateScreenState extends State<GenerateScreen> {
       RenderRepaintBoundary boundary =
           globalKey.currentContext.findRenderObject();
       var image = await boundary.toImage();
+      // image contains the QR Code image now
+      
       ByteData byteData = await image.toByteData(format: ImageByteFormat.png);
       Uint8List pngBytes = byteData.buffer.asUint8List();
-      // filePath = await ImagePickerSaver.saveFile(fileData: pngBytes);
+
       final result = await ImageGallerySaver.saveImage(pngBytes);
-      // print(filePath);
+
       String filePath = result.toString().substring(7);
       if (_status) {
         ShareIt.file(path: filePath, type: ShareItFileType.image);
@@ -156,6 +158,8 @@ class GenerateScreenState extends State<GenerateScreen> {
       RenderRepaintBoundary boundary =
           globalKey.currentContext.findRenderObject();
       var image = await boundary.toImage();
+      // image contains the QR Code image now
+      
       ByteData byteData = await image.toByteData(format: ImageByteFormat.png);
       Uint8List pngBytes = byteData.buffer.asUint8List();
 
