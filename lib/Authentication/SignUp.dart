@@ -21,10 +21,12 @@ class _SignUpState extends State<SignUp> {
       form.save();
       return true;
     }
+    // Form is not filled properly, so return false
     return false;
   }
 
   validateAndSubmit() {
+    // Takes keyboard out of focus
     FocusScope.of(context).unfocus();
     if(validateAndSave()) {
       auth.signUp(name, email, password);
@@ -35,9 +37,11 @@ class _SignUpState extends State<SignUp> {
   @override
   void initState() {
     super.initState();
+    // Create Auth object for accessing authentication services
     auth = Auth(context);
   }
 
+  // UI Code starts
   @override
   Widget build(BuildContext context) {
     return Scaffold(

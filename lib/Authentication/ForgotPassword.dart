@@ -20,10 +20,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       form.save();
       return true;
     }
+    // Form is not filled properly, so return false
     return false;
   }
 
   validateAndSubmit() async {
+    // Takes keyboard out of focus
     FocusScope.of(context).unfocus();
     if (validateAndSave()) {
       await auth.resetPassword(email);
@@ -33,9 +35,11 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   @override
   void initState() {
     super.initState();
+    // Create Auth object for accessing authentication services
     auth = new Auth(context);
   }
 
+  // UI Code starts
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,6 +63,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   }
 
   resetForm() {
+    // Gets width of the screen
     double width = MediaQuery.of(context).size.width;
     return <Widget>[
       TextFormField(

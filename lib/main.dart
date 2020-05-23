@@ -5,6 +5,7 @@ import 'package:fidbak/FeedbackCreation/NamingFeedback.dart';
 import 'package:fidbak/Home/AllFeedbacks.dart';
 import 'package:fidbak/Home/HomePage.dart';
 import 'package:fidbak/PreviousFeedbacks/ClosedFeedbacks.dart';
+import 'package:fidbak/Public/Loading.dart';
 import 'package:fidbak/Services/AuthManagement.dart';
 import 'package:fidbak/UserManagement/AddManager.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -87,7 +88,7 @@ class _LandingPageState extends State<LandingPage> {
         } else if (snapshot.connectionState == ConnectionState.waiting) {
           return Scaffold(
             body: Center(
-              child: CircularProgressIndicator(),
+              child: Loading(),
             ),
           );
         } else

@@ -18,9 +18,11 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
+    // Create Auth object for accessing authentication services
     auth = new Auth(context);
   }
 
+  // Form validators
   validateAndSave() {
     final form = formkey.currentState;
 
@@ -28,16 +30,19 @@ class _LoginPageState extends State<LoginPage> {
       form.save();
       return true;
     }
+    // Form is not filled properly, so return false
     return false;
   }
 
   validateAndSubmit() async {
+    // Takes keyboard out of focus
     FocusScope.of(context).unfocus();
     if (validateAndSave()) {
       await auth.signIn(_email, _password);
     }
   }
-
+  
+  // UI code starts
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,7 +65,6 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  // Entire Form in returned by this function
   List<Widget> loginForm() {
     double width = MediaQuery.of(context).size.width - 50;
     return <Widget>[
