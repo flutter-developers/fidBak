@@ -17,6 +17,7 @@ class _ClosedFeedbacksState extends State<ClosedFeedbacks> {
   Stream<QuerySnapshot> feedbacks;
   SharedPreferences _prefs;
 
+  // Initial logic starts
   instantiate() async {
     _prefs = await SharedPreferences.getInstance();
     if (_prefs.getBool("admin")) {
@@ -48,7 +49,9 @@ class _ClosedFeedbacksState extends State<ClosedFeedbacks> {
 
     return isAdmin;
   }
+  // Initial logic ends
 
+  // UI code starts
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,7 +76,7 @@ class _ClosedFeedbacksState extends State<ClosedFeedbacks> {
       stream: Firestore.instance.collection('/feedbacks').where('host_id',isEqualTo: email).where('status',isEqualTo: "close").snapshots(),
       builder: (context, snapshot) {
         if(snapshot.hasData) {
-          if(snapshot.data.documents.length == 0) return userContent();
+          if(snapshot.data.documents.length == 0) return emptyContent();
           return ListView.separated(
             separatorBuilder: (context, index) =>
                 Divider(height: 1.0, color: Colors.grey),
@@ -92,7 +95,7 @@ class _ClosedFeedbacksState extends State<ClosedFeedbacks> {
             },
           );
         } else if(snapshot.connectionState == ConnectionState.done && !snapshot.hasData) {
-          return userContent();
+          return emptyContent();
         } else {
           return Loading();
         }
@@ -100,9 +103,10 @@ class _ClosedFeedbacksState extends State<ClosedFeedbacks> {
     );
   }
 
-  userContent() {
+  emptyContent() {
     return Center(
       child: Text('No feedbacks hosted'),
     );
   }
+  // UI code ends
 }
