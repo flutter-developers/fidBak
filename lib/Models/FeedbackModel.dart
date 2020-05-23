@@ -15,6 +15,7 @@ class FeedbackModel {
   String status;
   String hostId;
 
+  // Constructor for Feedback model
   FeedbackModel(questions, type, name, host, allAttenders, hostId) {
     this.questionObjects = questions;
     this.remarks = new List<String>();
@@ -35,6 +36,9 @@ class FeedbackModel {
     this.scores = initializeScores(metrics);
   }
 
+  // This method initializes the scores to zero.
+  // Scores is a 2D matrix that stores the count of responses to an option in a particular question
+  // Example: SmileyRating contains 5 options, so question with SmileyRating metric will contain 5 zeros to store the count for 5 options.
   initializeScores(metrics) {
     Map<String,List<int>> scores = new Map<String,List<int>>();
     int idx = 0;
@@ -55,18 +59,22 @@ class FeedbackModel {
     return scores;
   }
 
+  // Fetch question and metric from Question object
   decodeObject(Question object) {
     this.questions.add(object.questionData);
     this.metrics.add(enumToString(object.metricType));
   }
 
+  // Converts given enum to String
   String enumToString(o) {
     return o.toString().split('.').last;
   }
 
+  // Converts String to enum
   MetricType enumFromString(String val, List<MetricType> values) =>
       values.firstWhere((v) => val == enumToString(v), orElse: () => null);
 
+  // Removes question at given index from questions list
   removeQuestion(int index) {
     questions.removeAt(index);
   }
