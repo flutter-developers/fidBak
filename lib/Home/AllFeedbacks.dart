@@ -52,6 +52,7 @@ class _AllFeedbacksState extends State<AllFeedbacks> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return StreamBuilder(
+            // Fetch all feedbacks under the current user's control
             stream: Firestore.instance
                 .collection('/feedbacks')
                 .where('type', whereIn: departments)
@@ -63,6 +64,8 @@ class _AllFeedbacksState extends State<AllFeedbacks> {
                     child: Text('No active feedbacks'),
                   );
                 }
+                
+                // Snapshot contains documents, so return ListView
                 return ListView.separated(
                   separatorBuilder: (context, index) =>
                       Divider(height: 1.0, color: Colors.grey),
@@ -101,6 +104,7 @@ class _AllFeedbacksState extends State<AllFeedbacks> {
   // UI code ends
 
   // Logic starts
+  // Fetch the departments for the current root user
   fetchDepartments() async {
     var docs = await Firestore.instance
         .collection('/root')

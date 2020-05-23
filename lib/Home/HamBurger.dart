@@ -17,6 +17,7 @@ class HamBurger {
       ListTile(
         title: Text('Create feedback'),
         onTap: () async {
+          // Allow access only if the current user is admin
           _prefs = await SharedPreferences.getInstance();
           isAdmin = _prefs.getBool("admin");
           if (isAdmin) {
@@ -30,6 +31,7 @@ class HamBurger {
       ListTile(
         title: Text('Closed feedbacks'),
         onTap: () {
+          // Public page, anyone can access
           Navigator.of(context).pop();
           Navigator.of(context).pushNamed('/closedFeedback');
         },
@@ -37,6 +39,7 @@ class HamBurger {
       ListTile(
         title: Text('All feedbacks'),
         onTap: () async {
+          // Allow access only to root user aka Department managers
           _prefs = await SharedPreferences.getInstance();
           bool isroot = _prefs.getBool("root");
           if(isroot) {
@@ -50,6 +53,7 @@ class HamBurger {
       ListTile(
         title: Text('Manage admins'),
         onTap: () {
+          // Public page, anyone can access
           Navigator.of(context).pop();
           Navigator.push(context, MaterialPageRoute(builder: (context) => ManageAdmins()));
         },
@@ -57,6 +61,7 @@ class HamBurger {
       ListTile(
         title: Text('Department managers'),
         onTap: () {
+          // Public page, anyone can access
           Navigator.of(context).pop();
           Navigator.push(context, MaterialPageRoute(builder: (context) => ManageRoot()));
         },

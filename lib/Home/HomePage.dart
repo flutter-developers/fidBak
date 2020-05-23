@@ -36,13 +36,11 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void deactivate() {
-    // print('In deactivate');
     super.deactivate();
   }
 
   @override
   void dispose() {
-    // print('in dispose');
     super.dispose();
   }
 
@@ -70,12 +68,14 @@ class _HomePageState extends State<HomePage> {
       drawer: Drawer(
         child: ListView(children: hamBurger.menu(context)),
       ),
+      // Wait for required data to be initialized. For that, using FutureBuilder. Same pattern is used in several other pages
       body: FutureBuilder(
         future: getUserData(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return userContent();
           } else {
+            // Data is not initialized yet
             return Loading();
           }
         },
@@ -95,6 +95,7 @@ class _HomePageState extends State<HomePage> {
 
   userContent() {
     return StreamBuilder(
+      // Fetch all the *open* feedbacks hosted by the *current user*
       stream: Firestore.instance
         .collection('/feedbacks')
         .where('host_id', isEqualTo: email)
@@ -107,6 +108,8 @@ class _HomePageState extends State<HomePage> {
               child: Text('No active feedbacks'),
             );
           }
+          
+          // Snapshot contains documents, so return ListView
           return ListView.separated(
             separatorBuilder: (context, index) =>
                 Divider(height: 1.0, color: Colors.grey),

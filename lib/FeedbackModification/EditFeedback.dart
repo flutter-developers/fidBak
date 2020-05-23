@@ -22,6 +22,7 @@ class EditFeedback extends StatefulWidget {
 class _EditFeedbackState extends State<EditFeedback> {
   @override
   Widget build(BuildContext context) {
+    // Gets width of the screen
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: AppBar(),
@@ -46,6 +47,7 @@ class _EditFeedbackState extends State<EditFeedback> {
               color: Colors.blue,
               child: Text('View statistics'),
               onPressed: () {
+                // Shows stats accordingly to the user's privileges
                 showStats();
               },
             ),
@@ -102,11 +104,14 @@ class _EditFeedbackState extends State<EditFeedback> {
     );
   }
 
-  // Logic
+  // Logic starts
   endFeedback() async {
+    // Start showing progress indicator
     ProgressDialog pr = new ProgressDialog(context, isDismissible: false);
     pr.style(message: 'Closing feedback');
     pr.show();
+    
+    // Updates current feedback status to close
     await Firestore.instance
         .collection('/feedbacks')
         .document(widget.feedback.documentID)
@@ -120,6 +125,7 @@ class _EditFeedbackState extends State<EditFeedback> {
           desc: 'Feedback closed successfully',
           dismissOnTouchOutside: false,
           btnOkOnPress: () {
+            // Navigates back to home screen
             Navigator.of(context)
                 .pushNamedAndRemoveUntil('/homepage', (r) => false);
           }).show();
@@ -130,6 +136,7 @@ class _EditFeedbackState extends State<EditFeedback> {
   }
 
   showStats() {
+    // If user is a root user, show the graphs otherwise show only the attended people
     if (widget.isRoot) {
       Navigator.push(
           context,
