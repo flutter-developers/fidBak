@@ -86,27 +86,7 @@ class _ScannerState extends State<Scanner> {
                       style: TextStyle(color: Colors.white),
                     ),
                     onPressed: () async {
-                      var snapshot = await Firestore.instance
-                          .collection('/feedbacks')
-                          .where('id', isEqualTo: int.parse(feedbackId))
-                          .where('status', isEqualTo: 'open')
-                          .getDocuments();
-
-                      if (snapshot.documents.length > 0) {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Answer(
-                                    data: snapshot.documents[0].documentID)));
-                      } else {
-                        AwesomeDialog(
-                                dialogType: DialogType.ERROR,
-                                context: context,
-                                desc: 'Not a valid ID',
-                                tittle: 'Error',
-                                dismissOnTouchOutside: true)
-                            .show();
-                      }
+                      await navigateWithCode();
                     },
                   ),
                 ),
@@ -117,7 +97,9 @@ class _ScannerState extends State<Scanner> {
       ),
     );
   }
-
+  
+  
+  // Logic starts
   _onQrViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((data) {
@@ -125,5 +107,29 @@ class _ScannerState extends State<Scanner> {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => Answer(data: data)));
     });
+  }
+
+  navigateWithCode() async {
+    var snapshot = await Firestore.instance
+        .collection('/feedbacks')
+        .where('id', isEqualTo: int.parse(feedbackId))
+        .where('status', isEqualTo: 'open')
+        .getDocuments();
+
+    if (snapshot.documents.length > 0) {
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  Answer(data: snapshot.documents[0].documentID)));
+    } else {
+      AwesomeDialog(
+              dialogType: DialogType.ERROR,
+              context: context,
+              desc: 'Not a valid ID',
+              tittle: 'Error',
+              dismissOnTouchOutside: true)
+          .show();
+    }
   }
 }

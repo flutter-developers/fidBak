@@ -28,34 +28,15 @@ class GenerateScreenState extends State<GenerateScreen> {
   bool _status;
   var filePath;
 
-  requestPermissions() async {
-    if (Platform.isAndroid) {
-      await Permission.storage.isGranted.then((status) {
-        setState(() {
-          _status = status;
-        });
-      });
-      await Permission.storage.isUndetermined.then((status) async {
-        await Permission.storage.request();
-      });
-    } else if (Platform.isIOS) {
-      await Permission.photos.isGranted.then((status) {
-        setState(() {
-          _status = status;
-        });
-      });
-      await Permission.photos.isUndetermined.then((status) async {
-        await Permission.storage.request();
-      });
-    }
-  }
-
+  // Initial code starts
   @override
   void initState() {
     super.initState();
     _dataString = widget.docID;
   }
+  // Initial code ends
 
+  // UI code starts
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,83 +44,7 @@ class GenerateScreenState extends State<GenerateScreen> {
       body: _contentWidget(),
     );
   }
-
-  getActions() {
-    if (Platform.isAndroid) {
-      return <Widget>[
-        IconButton(
-          icon: Icon(Icons.file_download),
-          onPressed: _captureAndSave,
-        ),
-        IconButton(
-          icon: Icon(Icons.share),
-          onPressed: _captureAndSharePng,
-        ),
-      ];
-    } else {
-      return <Widget>[
-        IconButton(
-          icon: Icon(Icons.file_download),
-          onPressed: _captureAndSave,
-        ),
-      ];
-    }
-  }
-
-  Future<void> _captureAndSharePng() async {
-    await requestPermissions();
-    try {
-      RenderRepaintBoundary boundary =
-          globalKey.currentContext.findRenderObject();
-      var image = await boundary.toImage();
-      ByteData byteData = await image.toByteData(format: ImageByteFormat.png);
-      Uint8List pngBytes = byteData.buffer.asUint8List();
-      // filePath = await ImagePickerSaver.saveFile(fileData: pngBytes);
-      final result = await ImageGallerySaver.saveImage(pngBytes);
-      // print(filePath);
-      String filePath = result.toString().substring(7);
-      if (_status) {
-        ShareIt.file(path: filePath, type: ShareItFileType.image);
-      } else {
-        requestPermissions();
-      }
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
-  Future<void> _captureAndSave() async {
-    await requestPermissions();
-    try {
-      RenderRepaintBoundary boundary =
-          globalKey.currentContext.findRenderObject();
-      var image = await boundary.toImage();
-      ByteData byteData = await image.toByteData(format: ImageByteFormat.png);
-      Uint8List pngBytes = byteData.buffer.asUint8List();
-
-      if (_status) {
-        final result = await ImageGallerySaver.saveImage(pngBytes);
-        print(result);
-        AwesomeDialog(
-            context: context,
-            dialogType: DialogType.SUCCES,
-            animType: AnimType.BOTTOMSLIDE,
-            tittle: 'Success',
-            desc: 'QR code is saved to your gallery',
-            dismissOnTouchOutside: false,
-            btnOkOnPress: () {
-              Navigator.of(context, rootNavigator: false).pop();
-              Navigator.of(context)
-                  .pushNamedAndRemoveUntil('/homepage', (r) => false);
-            }).show();
-      } else {
-        requestPermissions();
-      }
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
+  
   _contentWidget() {
     // final width = MediaQuery.of(context).size.width;
     final bodyHeight = MediaQuery.of(context).size.height -
@@ -198,4 +103,105 @@ class GenerateScreenState extends State<GenerateScreen> {
       ),
     );
   }
+
+  getActions() {
+    if (Platform.isAndroid) {
+      return <Widget>[
+        IconButton(
+          icon: Icon(Icons.file_download),
+          onPressed: _captureAndSave,
+        ),
+        IconButton(
+          icon: Icon(Icons.share),
+          onPressed: _captureAndSharePng,
+        ),
+      ];
+    } else {
+      return <Widget>[
+        IconButton(
+          icon: Icon(Icons.file_download),
+          onPressed: _captureAndSave,
+        ),
+      ];
+    }
+  }
+  // UI code ends
+
+  // Logic starts
+  Future<void> _captureAndSharePng() async {
+    await requestPermissions();
+    try {
+      RenderRepaintBoundary boundary =
+          globalKey.currentContext.findRenderObject();
+      var image = await boundary.toImage();
+      ByteData byteData = await image.toByteData(format: ImageByteFormat.png);
+      Uint8List pngBytes = byteData.buffer.asUint8List();
+      // filePath = await ImagePickerSaver.saveFile(fileData: pngBytes);
+      final result = await ImageGallerySaver.saveImage(pngBytes);
+      // print(filePath);
+      String filePath = result.toString().substring(7);
+      if (_status) {
+        ShareIt.file(path: filePath, type: ShareItFileType.image);
+      } else {
+        requestPermissions();
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<void> _captureAndSave() async {
+    await requestPermissions();
+    try {
+      RenderRepaintBoundary boundary =
+          globalKey.currentContext.findRenderObject();
+      var image = await boundary.toImage();
+      ByteData byteData = await image.toByteData(format: ImageByteFormat.png);
+      Uint8List pngBytes = byteData.buffer.asUint8List();
+
+      if (_status) {
+        final result = await ImageGallerySaver.saveImage(pngBytes);
+        print(result);
+        AwesomeDialog(
+            context: context,
+            dialogType: DialogType.SUCCES,
+            animType: AnimType.BOTTOMSLIDE,
+            tittle: 'Success',
+            desc: 'QR code is saved to your gallery',
+            dismissOnTouchOutside: false,
+            btnOkOnPress: () {
+              Navigator.of(context, rootNavigator: false).pop();
+              Navigator.of(context)
+                  .pushNamedAndRemoveUntil('/homepage', (r) => false);
+            }).show();
+      } else {
+        requestPermissions();
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+  
+  requestPermissions() async {
+    if (Platform.isAndroid) {
+      await Permission.storage.isGranted.then((status) {
+        setState(() {
+          _status = status;
+        });
+      });
+      await Permission.storage.isUndetermined.then((status) async {
+        await Permission.storage.request();
+      });
+    } else if (Platform.isIOS) {
+      await Permission.photos.isGranted.then((status) {
+        setState(() {
+          _status = status;
+        });
+      });
+      await Permission.photos.isUndetermined.then((status) async {
+        await Permission.storage.request();
+      });
+    }
+  }
+  // Logic ends
 }

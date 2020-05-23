@@ -29,6 +29,7 @@ class _AnswerState extends State<Answer> {
   List<QuestionAndResponse> questionObjectList =
       new List<QuestionAndResponse>();
 
+  // Initial code starts
   instantiate() async {
     await Firestore.instance
         .collection('/feedbacks')
@@ -61,7 +62,9 @@ class _AnswerState extends State<Answer> {
     getSharedPreferences();
     instantiate();
   }
-
+  // Initial code ends
+  
+  // UI code starts
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -178,7 +181,9 @@ class _AnswerState extends State<Answer> {
     questionObjectList.add(temp);
     return SatisafactionRatingMeter(temp);
   }
+  // UI code ends
 
+  // Logic starts
   uploadFeedback(context) {
     ProgressDialog pr = new ProgressDialog(context);
     pr.style(message: 'Submitting response');
