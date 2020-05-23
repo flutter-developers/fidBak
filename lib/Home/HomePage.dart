@@ -27,6 +27,7 @@ class _HomePageState extends State<HomePage> {
   List departments;
   Stream<QuerySnapshot> feedbacks;
 
+  // Initial logic starts
   @override
   void initState() {
     super.initState();
@@ -56,25 +57,9 @@ class _HomePageState extends State<HomePage> {
 
     return isAdmin;
   }
+  // Initial logic ends
 
-  requestCamera() async {
-    if (Platform.isAndroid) {
-      await Permission.camera.isUndetermined.then((status) async {
-        await Permission.camera.request();
-      });
-      await Permission.camera.isDenied.then((status) async {
-        await Permission.camera.request();
-      });
-    } else {
-      await Permission.photos.isUndetermined.then((status) async {
-        await Permission.photos.request();
-      });
-      await Permission.photos.isDenied.then((status) async {
-        await Permission.photos.request();
-      });
-    }
-  }
-
+  // UI code starts
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -151,5 +136,25 @@ class _HomePageState extends State<HomePage> {
         }
       },
     );
+  }
+  // UI code ends
+  
+  // Request camera permission upon clicking QR Scanner button
+  requestCamera() async {
+    if (Platform.isAndroid) {
+      await Permission.camera.isUndetermined.then((status) async {
+        await Permission.camera.request();
+      });
+      await Permission.camera.isDenied.then((status) async {
+        await Permission.camera.request();
+      });
+    } else {
+      await Permission.photos.isUndetermined.then((status) async {
+        await Permission.photos.request();
+      });
+      await Permission.photos.isDenied.then((status) async {
+        await Permission.photos.request();
+      });
+    }
   }
 }

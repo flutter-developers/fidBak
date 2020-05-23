@@ -14,6 +14,7 @@ class _AllFeedbacksState extends State<AllFeedbacks> {
   String email;
   List departments;
 
+  // Initial logic starts
   Future<bool> getUserData() async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
 
@@ -25,7 +26,9 @@ class _AllFeedbacksState extends State<AllFeedbacks> {
 
     return isAdmin;
   }
-
+  // Initial logic ends
+  
+  // UI code starts
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,17 +44,6 @@ class _AllFeedbacksState extends State<AllFeedbacks> {
         }
       ),
     );
-  }
-
-
-  fetchDepartments() async {
-    var docs = await Firestore.instance
-        .collection('/root')
-        .where('email', isEqualTo: email)
-        .getDocuments();
-
-    departments = docs.documents[0].data['departments'];
-    return true;
   }
 
   rootContent() {
@@ -105,5 +97,17 @@ class _AllFeedbacksState extends State<AllFeedbacks> {
         }
       },
     );
+  }
+  // UI code ends
+
+  // Logic starts
+  fetchDepartments() async {
+    var docs = await Firestore.instance
+        .collection('/root')
+        .where('email', isEqualTo: email)
+        .getDocuments();
+
+    departments = docs.documents[0].data['departments'];
+    return true;
   }
 }
