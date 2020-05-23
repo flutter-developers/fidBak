@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
@@ -108,18 +109,18 @@ class GenerateScreenState extends State<GenerateScreen> {
     if (Platform.isAndroid) {
       return <Widget>[
         IconButton(
-          icon: Icon(Icons.file_download),
+          icon: Icon(MdiIcons.download),
           onPressed: _captureAndSave,
         ),
         IconButton(
-          icon: Icon(Icons.share),
+          icon: Icon(MdiIcons.share),
           onPressed: _captureAndSharePng,
         ),
       ];
     } else {
       return <Widget>[
         IconButton(
-          icon: Icon(Icons.file_download),
+          icon: Icon(MdiIcons.download),
           onPressed: _captureAndSave,
         ),
       ];

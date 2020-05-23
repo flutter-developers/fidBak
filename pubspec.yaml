@@ -39,6 +39,7 @@ dependencies:
   file_picker: ^1.7.1
   excel: ^1.0.7
   path: ^1.7.0
+  font_awesome_flutter:
 
 
 flutter:
