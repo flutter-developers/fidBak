@@ -160,8 +160,6 @@ class CreateFeedback extends StatefulWidget {
 
 class _CreateFeedbackState extends State<CreateFeedback> {
   List<Question> questionsList = List<Question>();
-  final String content = "Can't add empty question";
-  final String title = "Error";
 
   @override
   Widget build(BuildContext context) {
@@ -214,7 +212,6 @@ class _CreateFeedbackState extends State<CreateFeedback> {
                 title: Text(questionsList[index].questionData),
                 trailing: Text(questionsList[index].metricType.toString()),
                 onTap: () {
-                  print('Here on Tap');
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -250,6 +247,7 @@ class _CreateFeedbackState extends State<CreateFeedback> {
     );
   }
 
+  // Swipe to delete background UI
   slideBackground(position) {
     return Container(
       color: Colors.red,

@@ -71,7 +71,7 @@ class _AnswerState extends State<Answer> {
       return stopUser('Feedback no longer exists');
     else if (data['attended'].contains(email))
       return stopUser('Can\'t give feedback more than once');
-    else if(!data['attenders'].contains(email)) {
+    else if(data['restricted']==true && !data['attenders'].contains(email)) {
       return stopUser('You\'re not allowed to answer this feedback');
     }
     else

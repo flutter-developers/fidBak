@@ -25,6 +25,7 @@ class _NamingFeedbackState extends State<NamingFeedback> {
   List<String> types = ['Workshop', 'Training', 'Seminar', 'Faculty'];
   List<String> emails = new List<String>();
 
+  // Form validators
   validateAndSave() {
     final form = formKey.currentState;
 
@@ -113,13 +114,18 @@ class _NamingFeedbackState extends State<NamingFeedback> {
         onSelected: (list) {
           setState(() {
             fileNeeded = list.isNotEmpty;
+            if(!fileNeeded) {
+              file = null;
+              emails.clear();
+            }
           });
         },
       ),
       SizedBox(
         height: 15,
       ),
-      fileNeeded ? Row(
+      fileNeeded ? 
+      Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           IconButton(
@@ -129,34 +135,7 @@ class _NamingFeedbackState extends State<NamingFeedback> {
             ),
             color: Colors.blue,
             onPressed: () async {
-              file = await FilePicker.getFile(
-                  type: FileType.custom, allowedExtensions: ['xlsx']);
-              setState(() {
-                file = file;
-              });
-              if (file != null) {
-                var bytes = file.readAsBytesSync();
-                var excel = Excel.decodeBytes(bytes, update: true);
-                var sheet = excel.tables.keys.first;
-                var header = excel.tables[sheet].rows.elementAt(0);
-                var table = excel.tables[sheet].rows;
-                var totalRows = excel.tables[sheet].maxRows;
-
-                int colIdx = 0;
-                keyIdxFound = false;
-                for (var colName in header) {
-                  if (colName.toString().toLowerCase().contains('mail')) {
-                    keyIdxFound = true;
-                    break;
-                  }
-                  colIdx++;
-                }
-
-                for (int rowIdx = 1; rowIdx < totalRows; rowIdx++) {
-                  emails.add(table[rowIdx][colIdx]);
-                }
-                // print(emails);
-              }
+              await setEmailsFromExcel();
             },
           ),
           SizedBox(width: 15),
@@ -181,5 +160,41 @@ class _NamingFeedbackState extends State<NamingFeedback> {
         onPressed: validateAndSubmit,
       ),
     ];
+  }
+
+  // Logic always below the UI code or in utility files
+  setEmailsFromExcel() async {
+    file = await FilePicker.getFile(
+        type: FileType.custom, allowedExtensions: ['xlsx']);
+    
+    // This reloads the page to render file picker UI
+    setState(() {
+      file = file;
+    });
+    
+    // User picked the file
+    if (file != null) {
+      var bytes = file.readAsBytesSync();
+      var excel = Excel.decodeBytes(bytes, update: true);
+      var sheet = excel.tables.keys.first; // Sheet name
+      var header = excel.tables[sheet].rows.elementAt(0); // Header row in excel sheet
+      var table = excel.tables[sheet].rows; // Converting entire excel into matrix(Map techincally)
+      var totalRows = excel.tables[sheet].maxRows;
+
+      int colIdx = 0; // Variable that holds index of mail IDs
+      keyIdxFound = false; 
+      for (var colName in header) {
+        if (colName.toString().toLowerCase().contains('mail')) {
+          keyIdxFound = true;
+          break;
+        }
+        colIdx++;
+      }
+      
+      // Pushing all the mail IDs
+      for (int rowIdx = 1; rowIdx < totalRows; rowIdx++) {
+        emails.add(table[rowIdx][colIdx]);
+      }
+    }
   }
 }

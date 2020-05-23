@@ -1,15 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fidbak/QRCode/GenerateScreen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
 class CrudMethods {
-  bool isLoggedIn() {
-    return FirebaseAuth.instance.currentUser() != null;
-  }
 
   // addData, getData, updateData
   postFeedback(context, feedback) {
@@ -54,4 +50,6 @@ class CrudMethods {
           }).show();
     });
   }
+  
+  
 }
