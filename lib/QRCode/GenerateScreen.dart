@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:image_picker_saver/image_picker_saver.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
@@ -10,8 +9,6 @@ import 'dart:io';
 import 'package:flutter/rendering.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:share_extend/share_extend.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:share_it/share_it.dart';
 
 class GenerateScreen extends StatefulWidget {

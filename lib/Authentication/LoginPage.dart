@@ -36,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
   validateAndSubmit() async {
     FocusScope.of(context).unfocus();
     if (validateAndSave()) {
-      auth.signIn(_email, _password);
+      await auth.signIn(_email, _password);
     }
   }
 
@@ -149,12 +149,7 @@ class _LoginPageState extends State<LoginPage> {
               style: TextStyle(color: Colors.red),
             ),
             onPressed: () async {
-              FirebaseUser user = await auth.getUser();
-              if (user == null) {
-                Fluttertoast.showToast(msg: 'User not found, Try signing up');
-              } else {
-                user.sendEmailVerification();
-              }
+              await auth.verifyEmail();
             },
           )
         ],

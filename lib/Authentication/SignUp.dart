@@ -13,6 +13,7 @@ class _SignUpState extends State<SignUp> {
   bool isHidden = true;
   Auth auth;
 
+  // Form validators
   validateAndSave() {
     final form = formKey.currentState;
 

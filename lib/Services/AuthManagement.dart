@@ -28,19 +28,18 @@ class Auth {
     await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: _email, password: _password)
         .then((user) async {
-          getAdmins(_email).then((docs) {
-            _prefs.setBool('admin', docs.documents.length > 0);
-            _prefs.setString("email", _email);
-          });
-          getRoots(_email).then((docs) {
-            _prefs.setBool('root', docs.documents.length > 0);
-          });
+      getAdmins(_email).then((docs) {
+        _prefs.setBool('admin', docs.documents.length > 0);
+        _prefs.setString("email", _email);
+      });
+      getRoots(_email).then((docs) {
+        _prefs.setBool('root', docs.documents.length > 0);
+      });
       FirebaseUser user = await getUser();
       pr.hide();
-      if(user.isEmailVerified) {
+      if (user.isEmailVerified) {
         Navigator.pushReplacementNamed(context, '/homepage');
-      }
-      else {
+      } else {
         Fluttertoast.showToast(msg: 'Email not verified!');
       }
     }).catchError((e) {
@@ -56,12 +55,13 @@ class Auth {
     });
   }
 
-  Future<String> signUp(String name,String email, String password) async {
+  Future<String> signUp(String name, String email, String password) async {
     ProgressDialog pr = new ProgressDialog(context);
     pr.style(message: 'Creating account');
     pr.show();
     FirebaseUser user = (await _firebaseAuth.createUserWithEmailAndPassword(
-            email: email, password: password)).user;
+            email: email, password: password))
+        .user;
 
     await user.sendEmailVerification();
     await Firestore.instance.collection('/users').add({
@@ -117,5 +117,23 @@ class Auth {
         .where('email', isEqualTo: email)
         .getDocuments();
     return docs;
+  }
+
+  resetPassword(email) async {
+    ProgressDialog pr = new ProgressDialog(context);
+    pr.style(message: 'Sending password reset email');
+    pr.show();
+    await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+    pr.hide();
+    Fluttertoast.showToast(msg: 'Email sent!');
+  }
+
+  verifyEmail() async {
+    FirebaseUser user = await getUser();
+    if (user == null) {
+      Fluttertoast.showToast(msg: 'User not found, Try signing up');
+    } else {
+      user.sendEmailVerification();
+    }
   }
 }

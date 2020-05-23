@@ -1,8 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fidbak/Services/AuthManagement.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:progress_dialog/progress_dialog.dart';
 
 class ForgotPassword extends StatefulWidget {
   @override
@@ -11,8 +9,10 @@ class ForgotPassword extends StatefulWidget {
 
 class _ForgotPasswordState extends State<ForgotPassword> {
   String email = '';
+  Auth auth;
   final formKey = new GlobalKey<FormState>();
 
+  // Form validation
   validateAndSave() {
     final form = formKey.currentState;
 
@@ -26,13 +26,14 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   validateAndSubmit() async {
     FocusScope.of(context).unfocus();
     if (validateAndSave()) {
-      ProgressDialog pr = new ProgressDialog(context);
-      pr.style(message: 'Sending password reset email');
-      pr.show();
-      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-      pr.hide();
-      Fluttertoast.showToast(msg: 'Email sent!');
+      await auth.resetPassword(email);
     }
+  }
+  
+  @override
+  void initState() {
+    super.initState();
+    auth = new Auth(context);
   }
 
   @override
