@@ -22,9 +22,12 @@ class Auth {
   }
 
   Future<void> signIn(String _email, String _password) async {
+    // Start showing progress indicator
     ProgressDialog pr = new ProgressDialog(context);
     pr.style(message: 'Just a moment');
     pr.show();
+    
+    // Sign in -> Set shared preferences(root, admin, email) -> check if user is email verified -> Navigate to home screen on success
     await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: _email, password: _password)
         .then((user) async {
@@ -59,6 +62,8 @@ class Auth {
     ProgressDialog pr = new ProgressDialog(context);
     pr.style(message: 'Creating account');
     pr.show();
+    
+    // Sign up -> send Email verification -> Add user data to *users* collection -> set shared prefernces -> return user id
     FirebaseUser user = (await _firebaseAuth.createUserWithEmailAndPassword(
             email: email, password: password))
         .user;
@@ -78,18 +83,21 @@ class Auth {
     });
     return user.uid;
   }
-
+  
+  // Returns current user of type FirebaseUser
   getUser() async {
     FirebaseUser user = await _firebaseAuth.currentUser();
     return user;
   }
 
+  // Return user email
   Future<String> getUserEmail() async {
     FirebaseUser user = await _firebaseAuth.currentUser();
     return user.email;
   }
 
   Future<void> signOut() async {
+    // Signout -> Set preferences to null -> navigate to landing page
     await FirebaseAuth.instance.signOut().then((value) {
       _prefs.setBool('admin', null);
       _prefs.setString('email', null);
