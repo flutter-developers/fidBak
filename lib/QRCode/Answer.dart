@@ -228,6 +228,7 @@ class _AnswerState extends State<Answer> {
     }).catchError((e) {
       pr.hide();
       print(e);
+      if(e == 'Error')
       uploadFeedback(context);
     });
   }

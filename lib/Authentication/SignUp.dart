@@ -25,11 +25,11 @@ class _SignUpState extends State<SignUp> {
     return false;
   }
 
-  validateAndSubmit() {
+  validateAndSubmit() async {
     // Takes keyboard out of focus
     FocusScope.of(context).unfocus();
     if(validateAndSave()) {
-      auth.signUp(name, email, password);
+      await auth.signUp(name.trim(), email.trim(), password.trim());
     }
   }
 

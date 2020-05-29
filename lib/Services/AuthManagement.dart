@@ -59,28 +59,34 @@ class Auth {
   }
 
   Future<String> signUp(String name, String email, String password) async {
+    FirebaseUser user;
     ProgressDialog pr = new ProgressDialog(context);
     pr.style(message: 'Creating account');
     pr.show();
     
-    // Sign up -> send Email verification -> Add user data to *users* collection -> set shared prefernces -> return user id
-    FirebaseUser user = (await _firebaseAuth.createUserWithEmailAndPassword(
-            email: email, password: password))
-        .user;
-
-    await user.sendEmailVerification();
+    // Add user data to *users* collection -> Sign up -> Send Email verification -> Set shared preferences -> return user id
+    
     await Firestore.instance.collection('/users').add({
-      'uid': user.uid,
       'name': name,
       'email': email,
       'isadmin': false
-    }).then((val) {
-      pr.hide();
+    }).then((val) async {
       _prefs.setString('email', email);
       _prefs.setBool('admin', false);
       _prefs.setBool('root', false);
+      
+      user = (await _firebaseAuth.createUserWithEmailAndPassword(
+            email: email, password: password)).user;
+      
+      await user.sendEmailVerification();
+      pr.hide();
+      Fluttertoast.showToast(msg: 'Account created successfully, Please verify your email', toastLength: Toast.LENGTH_LONG);
       Navigator.of(context).pop();
+    }).catchError((e) async {
+      pr.hide();
+      Fluttertoast.showToast(msg: 'Error creating account');
     });
+    
     return user.uid;
   }
   

@@ -38,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
     // Takes keyboard out of focus
     FocusScope.of(context).unfocus();
     if (validateAndSave()) {
-      await auth.signIn(_email, _password);
+      await auth.signIn(_email.trim(), _password.trim());
     }
   }
   

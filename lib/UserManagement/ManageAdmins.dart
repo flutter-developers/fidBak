@@ -15,7 +15,7 @@ class _ManageAdminsState extends State<ManageAdmins> {
   bool isRoot;
   bool isAdmin;
   String query = '';
-  String newAdminEmail;
+  String newAdminEmail = '';
   Widget appBarContent = new Text('Manage admins');
   List<dynamic> _list = List<dynamic>();
   Icon appBarIcon = Icon(Icons.search);
@@ -163,6 +163,11 @@ class _ManageAdminsState extends State<ManageAdmins> {
         .collection('/users')
         .where('email', isEqualTo: newAdminEmail)
         .getDocuments();
+        
+    if(newAdminEmail == null) {
+      Fluttertoast.showToast(msg: 'Please enter Email ID');
+      return;
+    }
 
     if (userDocs.documents.length == 0) {
       Fluttertoast.showToast(msg: 'User doesn\'t exist');
