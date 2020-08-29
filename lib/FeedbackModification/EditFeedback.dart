@@ -1,6 +1,7 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:fidbak/QRCode/GenerateScreen.dart';
 import 'package:fidbak/Stats/NormalStats.dart';
+import 'package:fidbak/Stats/PositivityMeter.dart';
 import 'package:fidbak/Stats/ViewStatistics.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -40,19 +41,61 @@ class _EditFeedbackState extends State<EditFeedback> {
                 separatorBuilder: (context, index) =>
                     Divider(height: 1.0, color: Colors.grey),
                 itemCount: widget.feedback.data['questions'].length)),
-        persistentFooterButtons: <Widget>[
-          SizedBox(
-            width: width,
-            child: RaisedButton(
-              color: Colors.blue,
-              child: Text('View statistics'),
-              onPressed: () {
-                // Shows stats accordingly to the user's privileges
-                showStats();
-              },
-            ),
-          )
-        ],
+        bottomNavigationBar: BottomAppBar(
+          child: widget.isRoot
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                      SizedBox(
+                        width: width / 2 - 5,
+                        child: RaisedButton(
+                          color: Colors.blue,
+                          child: Text('Attendees',
+                              style: TextStyle(color: Colors.white)),
+                          onPressed: () {
+                            // Shows stats accordingly to the user's privileges
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => NormalStats(
+                                        widget.feedback.documentID)));
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        width: width / 2 - 5,
+                        child: RaisedButton(
+                          color: Colors.blue,
+                          child: Text('Statistics',
+                              style: TextStyle(color: Colors.white)),
+                          onPressed: () {
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => Statistics(
+                            //             widget.feedback.documentID)));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => PositivityMeter(
+                                        widget.feedback.documentID)));
+                          },
+                        ),
+                      )
+                    ])
+              : RaisedButton(
+                  color: Colors.blue,
+                  child:
+                      Text('Attendees', style: TextStyle(color: Colors.white)),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                NormalStats(widget.feedback.documentID)));
+                  },
+                ),
+        ),
         floatingActionButton: getOptions());
   }
 
@@ -110,7 +153,7 @@ class _EditFeedbackState extends State<EditFeedback> {
     ProgressDialog pr = new ProgressDialog(context, isDismissible: false);
     pr.style(message: 'Closing feedback');
     pr.show();
-    
+
     // Updates current feedback status to close
     await Firestore.instance
         .collection('/feedbacks')
@@ -133,20 +176,5 @@ class _EditFeedbackState extends State<EditFeedback> {
       pr.hide();
       Fluttertoast.showToast(msg: 'Error occured');
     });
-  }
-
-  showStats() {
-    // If user is a root user, show the graphs otherwise show only the attended people
-    if (widget.isRoot) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => Statistics(widget.feedback.documentID)));
-    } else {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => NormalStats(widget.feedback.documentID)));
-    }
   }
 }

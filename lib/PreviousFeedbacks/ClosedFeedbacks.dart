@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fidbak/FeedbackModification/EditFeedback.dart';
 import 'package:fidbak/Public/Loading.dart';
 import 'package:fidbak/Services/AuthManagement.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,6 +17,7 @@ class _ClosedFeedbacksState extends State<ClosedFeedbacks> {
   String email;
   Stream<QuerySnapshot> feedbacks;
   SharedPreferences _prefs;
+  var isRoot;
 
   // Initial logic starts
   instantiate() async {
@@ -45,6 +47,7 @@ class _ClosedFeedbacksState extends State<ClosedFeedbacks> {
     setState(() {
       email = _prefs.getString('email');
       isAdmin = _prefs.getBool('admin');
+      isRoot = _prefs.getBool('root');
     });
 
     return isAdmin;
@@ -73,7 +76,7 @@ class _ClosedFeedbacksState extends State<ClosedFeedbacks> {
 
   closedList() {
     return StreamBuilder(
-      // Fetch all the *closed* feedbacks hosted by the *current user* 
+      // Fetch all the *closed* feedbacks hosted by the *current user*
       stream: Firestore.instance
           .collection('/feedbacks')
           .where('host_id', isEqualTo: email)
@@ -93,7 +96,13 @@ class _ClosedFeedbacksState extends State<ClosedFeedbacks> {
                 title: Text(feedback.data['name']),
                 subtitle: Text('Host : ' + feedback.data['host']),
                 trailing: Text(feedback.data['type'] ?? ""),
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => EditFeedback(
+                              feedback: feedback, isRoot: isRoot)));
+                },
               );
             },
           );

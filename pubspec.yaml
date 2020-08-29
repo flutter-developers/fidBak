@@ -40,6 +40,8 @@ dependencies:
   excel: ^1.0.7
   path: ^1.7.0
   font_awesome_flutter:
+  percent_indicator:
+  activity_ring:
 
 
 flutter:
