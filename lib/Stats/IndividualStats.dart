@@ -5,14 +5,14 @@ class IndividualCharts extends StatelessWidget {
   final List<charts.Series> statList;
   final bool animate;
 
-  IndividualCharts(this.statList,this.animate);
+  IndividualCharts(this.statList, this.animate);
 
   @override
   Widget build(BuildContext context) {
     return charts.BarChart(
       statList,
       animate: true,
-      vertical: false,
+      vertical: true,
     );
   }
 }
@@ -21,5 +21,5 @@ class QuestionStat {
   final String result;
   final int noOfUsers;
 
-  QuestionStat(this.result,this.noOfUsers);
+  QuestionStat(this.result, this.noOfUsers);
 }

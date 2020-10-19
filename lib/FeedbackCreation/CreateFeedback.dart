@@ -50,7 +50,8 @@ class _QuestionDialogState extends State<QuestionDialog> {
                 SizedBox(
                     width: (width * 4) / 5,
                     child: TextField(
-                      controller: TextEditingController()..text =  widget.question.questionData,
+                      controller: TextEditingController()
+                        ..text = widget.question.questionData,
                       decoration: InputDecoration(hintText: 'Question'),
                       onChanged: (text) {
                         widget.question.questionData = text;

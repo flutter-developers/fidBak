@@ -26,7 +26,7 @@ class Auth {
     ProgressDialog pr = new ProgressDialog(context);
     pr.style(message: 'Just a moment');
     pr.show();
-    
+
     // Sign in -> Set shared preferences(root, admin, email) -> check if user is email verified -> Navigate to home screen on success
     await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: _email, password: _password)
@@ -63,33 +63,33 @@ class Auth {
     ProgressDialog pr = new ProgressDialog(context);
     pr.style(message: 'Creating account');
     pr.show();
-    
+
     // Add user data to *users* collection -> Sign up -> Send Email verification -> Set shared preferences -> return user id
-    
-    await Firestore.instance.collection('/users').add({
-      'name': name,
-      'email': email,
-      'isadmin': false
-    }).then((val) async {
+
+    await Firestore.instance.collection('/users').add(
+        {'name': name, 'email': email, 'isadmin': false}).then((val) async {
       _prefs.setString('email', email);
       _prefs.setBool('admin', false);
       _prefs.setBool('root', false);
-      
+
       user = (await _firebaseAuth.createUserWithEmailAndPassword(
-            email: email, password: password)).user;
-      
+              email: email, password: password))
+          .user;
+
       await user.sendEmailVerification();
       pr.hide();
-      Fluttertoast.showToast(msg: 'Account created successfully, Please verify your email', toastLength: Toast.LENGTH_LONG);
+      Fluttertoast.showToast(
+          msg: 'Account created successfully, Please verify your email',
+          toastLength: Toast.LENGTH_LONG);
       Navigator.of(context).pop();
     }).catchError((e) async {
       pr.hide();
       Fluttertoast.showToast(msg: 'Error creating account');
     });
-    
+
     return user.uid;
   }
-  
+
   // Returns current user of type FirebaseUser
   getUser() async {
     FirebaseUser user = await _firebaseAuth.currentUser();

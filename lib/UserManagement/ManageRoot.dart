@@ -12,7 +12,7 @@ class ManageRoot extends StatefulWidget {
 }
 
 class _ManageRootState extends State<ManageRoot> {
-  bool isAdmin,isRoot;
+  bool isAdmin, isRoot;
 
   Future<bool> getUserData() async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
@@ -29,21 +29,22 @@ class _ManageRootState extends State<ManageRoot> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Managers'),),
-      body: FutureBuilder(
-        future: getUserData(),
-        builder: (context, snapshot) {
-          if(snapshot.hasData) {
-            return rootUserList();
-          } else {
-            return Loading();
-          }
-        }
+      appBar: AppBar(
+        title: Text('Managers'),
       ),
+      body: FutureBuilder(
+          future: getUserData(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return rootUserList();
+            } else {
+              return Loading();
+            }
+          }),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () async {
-          if(isRoot) {
+          if (isRoot) {
             Navigator.of(context).pushNamed('/addManager');
           } else {
             Fluttertoast.showToast(msg: 'Permission Denied☹️');
@@ -55,56 +56,60 @@ class _ManageRootState extends State<ManageRoot> {
 
   rootUserList() {
     return StreamBuilder(
-      stream: Firestore.instance.collection('/root').snapshots(),
-      builder: (context, snapshot) {
-        if(snapshot.hasData) {
-          return ListView.separated(
-            separatorBuilder: (context, index) =>
-                Divider(height: 1.0, color: Colors.grey),
-            itemBuilder: (context, index) {
-              DocumentSnapshot userData = snapshot.data.documents[index];
+        stream: Firestore.instance.collection('/root').snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return ListView.separated(
+              separatorBuilder: (context, index) =>
+                  Divider(height: 1.0, color: Colors.grey),
+              itemBuilder: (context, index) {
+                DocumentSnapshot userData = snapshot.data.documents[index];
 
-              return ListTile(
-                title: Text(userData.data['name']),
-                subtitle: Text(userData.data['departments'].join(',')),
-                trailing: IconButton(icon: Icon(MdiIcons.minusCircleOutline,color: Colors.red,),onPressed: () async {
-                  ProgressDialog pr = new ProgressDialog(context);
-                    pr.style(message: 'Processing request');
-                    pr.show();
-                    await removeUser(userData.data['email']);
-                    pr.hide();
-                },)
-              );
-            },
-            itemCount: snapshot.data.documents.length,
-          );
-        } else if (snapshot.connectionState == ConnectionState.done &&
-            !snapshot.hasData) {
-          return Center(child: Text('No Admins'));
-        } else {
-          return Loading();
-        }
-      }
-    );
+                return ListTile(
+                    title: Text(userData.data['name']),
+                    subtitle: Text(userData.data['departments'].join(',')),
+                    trailing: IconButton(
+                      icon: Icon(
+                        MdiIcons.minusCircleOutline,
+                        color: Colors.red,
+                      ),
+                      onPressed: () async {
+                        ProgressDialog pr = new ProgressDialog(context);
+                        pr.style(message: 'Processing request');
+                        pr.show();
+                        await removeUser(userData.data['email']);
+                        pr.hide();
+                      },
+                    ));
+              },
+              itemCount: snapshot.data.documents.length,
+            );
+          } else if (snapshot.connectionState == ConnectionState.done &&
+              !snapshot.hasData) {
+            return Center(child: Text('No Admins'));
+          } else {
+            return Loading();
+          }
+        });
   }
   // UI code ends
-  
+
   // Logic starts
   removeUser(email) async {
-    if(isRoot) {
+    if (isRoot) {
       var rootDocs = await Firestore.instance
-        .collection('/root')
-        .where('email', isEqualTo: email)
-        .getDocuments();
-      
+          .collection('/root')
+          .where('email', isEqualTo: email)
+          .getDocuments();
+
       await Firestore.instance
-            .collection('/root')
-            .document(rootDocs.documents[0].documentID)
-            .delete()
-            .catchError((e) {
-          print(e);
-        });
-        Fluttertoast.showToast(msg: 'Successfully removed😄');
+          .collection('/root')
+          .document(rootDocs.documents[0].documentID)
+          .delete()
+          .catchError((e) {
+        print(e);
+      });
+      Fluttertoast.showToast(msg: 'Successfully removed😄');
     } else {
       Fluttertoast.showToast(msg: 'Permission Denied☹️');
     }

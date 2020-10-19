@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
       ),
       routes: <String, WidgetBuilder>{
         '/allFeedbacks': (BuildContext context) => new AllFeedbacks(),
-        '/addManager':(BuildContext context) => new AddManager(),
+        '/addManager': (BuildContext context) => new AddManager(),
         '/signup': (BuildContext context) => new SignUp(),
         '/nameFeedback': (BuildContext context) => new NamingFeedback(),
         '/landingpage': (BuildContext context) => new LoginPage(),

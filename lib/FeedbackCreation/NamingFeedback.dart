@@ -114,7 +114,7 @@ class _NamingFeedbackState extends State<NamingFeedback> {
         onSelected: (list) {
           setState(() {
             fileNeeded = list.isNotEmpty;
-            if(!fileNeeded) {
+            if (!fileNeeded) {
               // Admin lifted restriction on feedback, so clear the emails list and file
               file = null;
               emails.clear();
@@ -125,30 +125,33 @@ class _NamingFeedbackState extends State<NamingFeedback> {
       SizedBox(
         height: 15,
       ),
-      fileNeeded ? 
-      Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          IconButton(
-            icon: Icon(
-              MdiIcons.attachment,
-              size: 40,
+      fileNeeded
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                IconButton(
+                  icon: Icon(
+                    MdiIcons.attachment,
+                    size: 40,
+                  ),
+                  color: Colors.blue,
+                  onPressed: () async {
+                    await setEmailsFromExcel();
+                  },
+                ),
+                SizedBox(width: 15),
+                file == null
+                    ? Text('Pick an excel sheet')
+                    : Expanded(
+                        child: Text(
+                        p.basename(file.path),
+                        overflow: TextOverflow.clip,
+                      ))
+              ],
+            )
+          : SizedBox(
+              height: 1,
             ),
-            color: Colors.blue,
-            onPressed: () async {
-              await setEmailsFromExcel();
-            },
-          ),
-          SizedBox(width: 15),
-          file == null
-              ? Text('Pick an excel sheet')
-              : Expanded(
-                  child: Text(
-                  p.basename(file.path),
-                  overflow: TextOverflow.clip,
-                ))
-        ],
-      ) : SizedBox(height: 1,),
       SizedBox(
         height: 15,
       ),
@@ -167,23 +170,25 @@ class _NamingFeedbackState extends State<NamingFeedback> {
   setEmailsFromExcel() async {
     file = await FilePicker.getFile(
         type: FileType.custom, allowedExtensions: ['xlsx']);
-    
+
     // This reloads the page to render file picker UI
     setState(() {
       file = file;
     });
-    
+
     // User picked the file
     if (file != null) {
       var bytes = file.readAsBytesSync();
       var excel = Excel.decodeBytes(bytes, update: true);
       var sheet = excel.tables.keys.first; // Sheet name
-      var header = excel.tables[sheet].rows.elementAt(0); // Header row in excel sheet
-      var table = excel.tables[sheet].rows; // Converting entire excel into matrix(Map techincally)
+      var header =
+          excel.tables[sheet].rows.elementAt(0); // Header row in excel sheet
+      var table = excel.tables[sheet]
+          .rows; // Converting entire excel into matrix(Map techincally)
       var totalRows = excel.tables[sheet].maxRows;
 
       int colIdx = 0; // Variable that holds index of mail IDs
-      keyIdxFound = false; 
+      keyIdxFound = false;
       for (var colName in header) {
         if (colName.toString().toLowerCase().contains('mail')) {
           keyIdxFound = true;
@@ -191,7 +196,7 @@ class _NamingFeedbackState extends State<NamingFeedback> {
         }
         colIdx++;
       }
-      
+
       // Pushing all the mail IDs
       for (int rowIdx = 1; rowIdx < totalRows; rowIdx++) {
         emails.add(table[rowIdx][colIdx]);

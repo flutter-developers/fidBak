@@ -5,7 +5,7 @@ enum MetricType { Satisfaction, GoalCompletionRate, EffortScore, SmileyRating }
 class FeedbackModel {
   List<Question> questionObjects;
   List<String> questions, metrics;
-  Map<String,List<int>> scores;
+  Map<String, List<int>> scores;
   List<String> remarks;
   List<String> attended;
   List<String> allAttenders;
@@ -40,7 +40,7 @@ class FeedbackModel {
   // Scores is a 2D matrix that stores the count of responses to an option in a particular question
   // Example: SmileyRating contains 5 options, so question with SmileyRating metric will contain 5 zeros to store the count for 5 options.
   initializeScores(metrics) {
-    Map<String,List<int>> scores = new Map<String,List<int>>();
+    Map<String, List<int>> scores = new Map<String, List<int>>();
     int idx = 0;
     metrics.forEach((metric) {
       int length;
@@ -52,7 +52,7 @@ class FeedbackModel {
         length = 3;
       else
         length = 5;
-      List<int> tempList = new List<int>.filled(length, 0,growable: false);
+      List<int> tempList = new List<int>.filled(length, 0, growable: false);
       scores[idx.toString()] = (tempList);
       idx++;
     });

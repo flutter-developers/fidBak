@@ -27,7 +27,7 @@ class _StatisticsState extends State<Statistics> {
   void initState() {
     super.initState();
   }
-  
+
   Future<bool> setData() async {
     var data = await Firestore.instance
         .collection('/feedbacks')
@@ -62,8 +62,17 @@ class _StatisticsState extends State<Statistics> {
               itemBuilder: (context, index) {
                 return Column(
                   children: <Widget>[
-                    Text(_data['questions'][index]),
-                    SizedBox(height: 5),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text('${index + 1}) ' + _data['questions'][index],
+                              style: TextStyle(fontSize: 18)),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 10),
                     SizedBox(
                       width: width,
                       height: height,
@@ -89,9 +98,15 @@ class _StatisticsState extends State<Statistics> {
   List<charts.Series<QuestionStat, String>> scoresToStatList(
       scores, metricType) {
     var goal = ['Yes', 'Partially', 'No'];
-    var effort = ['1', '2', '3', '4', '5'];
+    var effort = [
+      'Strongly Disagree',
+      'Disagree',
+      'Neutral',
+      'Agree',
+      'Strongly Agree'
+    ];
     var smiley = ['☹️', '😕', '😐', '🙂', '😄'];
-    var satisfaction = ['1', '2', '3', '4', '5'];
+    var satisfaction = ['1⭐', '2⭐️', '3⭐️', '4⭐️', '5⭐️'];
     List<QuestionStat> data = new List<QuestionStat>();
 
     if (metricType == 'GoalCompletionRate') {

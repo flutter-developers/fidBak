@@ -98,8 +98,7 @@ class _ScannerState extends State<Scanner> {
       ),
     );
   }
-  
-  
+
   // Logic starts
   _onQrViewCreated(QRViewController controller) {
     this.controller = controller;

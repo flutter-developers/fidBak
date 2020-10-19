@@ -41,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
       await auth.signIn(_email.trim(), _password.trim());
     }
   }
-  
+
   // UI code starts
   @override
   Widget build(BuildContext context) {

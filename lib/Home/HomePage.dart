@@ -66,7 +66,8 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
       ),
       drawer: Drawer(
-        child: ListView(children: hamBurger.menu(context)),
+        child: ListView(
+            children: hamBurger.menu(context, email == null ? '...' : email)),
       ),
       // Wait for required data to be initialized. For that, using FutureBuilder. Same pattern is used in several other pages
       body: FutureBuilder(
@@ -97,10 +98,10 @@ class _HomePageState extends State<HomePage> {
     return StreamBuilder(
       // Fetch all the *open* feedbacks hosted by the *current user*
       stream: Firestore.instance
-        .collection('/feedbacks')
-        .where('host_id', isEqualTo: email)
-        .where('status', isEqualTo: "open")
-        .snapshots(),
+          .collection('/feedbacks')
+          .where('host_id', isEqualTo: email)
+          .where('status', isEqualTo: "open")
+          .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data.documents.length == 0) {
@@ -108,7 +109,7 @@ class _HomePageState extends State<HomePage> {
               child: Text('No active feedbacks'),
             );
           }
-          
+
           // Snapshot contains documents, so return ListView
           return ListView.separated(
             separatorBuilder: (context, index) =>
@@ -141,7 +142,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
   // UI code ends
-  
+
   // Request camera permission upon clicking QR Scanner button
   requestCamera() async {
     if (Platform.isAndroid) {

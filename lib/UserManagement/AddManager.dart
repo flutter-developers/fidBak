@@ -37,26 +37,41 @@ class _AddManagerState extends State<AddManager> {
           .where('email', isEqualTo: _email)
           .getDocuments();
 
-      if(userDocs.documents.length == 0) {
+      if (userDocs.documents.length == 0) {
         Fluttertoast.showToast(msg: 'User doesn\'t exist');
         pr.hide();
       } else {
         var docID = userDocs.documents[0].documentID;
         var doc = userDocs.documents[0];
 
-        await Firestore.instance.collection('/users').document(docID).updateData({'isadmin': true}).catchError((e) {
+        await Firestore.instance
+            .collection('/users')
+            .document(docID)
+            .updateData({'isadmin': true}).catchError((e) {
           print(e);
           pr.hide();
         });
 
-        await Firestore.instance.collection('/root').add({
+        await Firestore.instance
+            .collection('/root')
+            .document(doc.data['email'])
+            .setData({
           'name': doc.data['name'],
           'departments': departments,
           'email': doc.data['email']
-        }).then((val) {
+        }, merge: true).then((val) {
           pr.hide();
           Navigator.of(context).pop();
         });
+
+        // await Firestore.instance.collection('/root').add({
+        //   'name': doc.data['name'],
+        //   'departments': departments,
+        //   'email': doc.data['email']
+        // }).then((val) {
+        //   pr.hide();
+        //   Navigator.of(context).pop();
+        // });
       }
     }
   }

@@ -33,14 +33,18 @@ class _NormalStatsState extends State<NormalStats> {
       appBar: AppBar(
         title: Text('Stats'),
         actions: <Widget>[
-          IconButton(icon: Icon(MdiIcons.share),onPressed: () {
-            String shareString = 'The following list of users are yet to give their feedback to ${_data['name']} hosted by ${_data['host']}\n\n${notAttended.join('\n')}\n\nYou\'re requested to give your valuable feedback as soon as possible';
-            // print(shareString);
-            ShareIt.text(
-              content: shareString,
-              androidSheetTitle: 'Share list of users'
-            );
-          },tooltip: 'Share the following list',)
+          IconButton(
+            icon: Icon(MdiIcons.share),
+            onPressed: () {
+              String shareString =
+                  'The following list of users are yet to give their feedback to ${_data['name']} hosted by ${_data['host']}\n\n${notAttended.join('\n')}\n\nYou\'re requested to give your valuable feedback as soon as possible';
+              // print(shareString);
+              ShareIt.text(
+                  content: shareString,
+                  androidSheetTitle: 'Share list of users');
+            },
+            tooltip: 'Share the following list',
+          )
         ],
       ),
       body: FutureBuilder(

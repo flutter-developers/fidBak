@@ -65,8 +65,9 @@ class _PositivityMeterState extends State<PositivityMeter> {
                     CircularPercentIndicator(
                         radius: width - width / 10,
                         lineWidth: width / 25,
-                        // percent: percentage = stats.getOverallAverage().toDouble(),
-                        percent: percentage,
+                        percent: percentage =
+                            stats.getOverallAverage().toDouble(),
+                        // percent: percentage,
                         center: getCenterText(percentage * 100),
                         circularStrokeCap: CircularStrokeCap.round,
                         animation: true,

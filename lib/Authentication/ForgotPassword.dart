@@ -31,7 +31,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       await auth.resetPassword(email);
     }
   }
-  
+
   @override
   void initState() {
     super.initState();

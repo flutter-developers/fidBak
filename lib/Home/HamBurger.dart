@@ -11,9 +11,19 @@ class HamBurger {
   bool isAdmin;
   SharedPreferences _prefs;
 
-  List<Widget> menu(BuildContext context) {
+  List<Widget> menu(BuildContext context, String email) {
     auth = new Auth(context);
     return <Widget>[
+      UserAccountsDrawerHeader(
+        accountName: Text('Logged in as'),
+        accountEmail: Text(email),
+        currentAccountPicture: CircleAvatar(
+            backgroundColor: Theme.of(context).platform == TargetPlatform.iOS
+                ? Colors.blue
+                : Colors.white,
+            child: Text(email == '...' ? 'A' : email[0].toUpperCase(),
+                style: TextStyle(fontSize: 40))),
+      ),
       ListTile(
         title: Text('Create feedback'),
         onTap: () async {
@@ -42,7 +52,7 @@ class HamBurger {
           // Allow access only to root user aka Department managers
           _prefs = await SharedPreferences.getInstance();
           bool isroot = _prefs.getBool("root");
-          if(isroot) {
+          if (isroot) {
             Navigator.of(context).pop();
             Navigator.of(context).pushNamed('/allFeedbacks');
           } else {
@@ -55,7 +65,8 @@ class HamBurger {
         onTap: () {
           // Public page, anyone can access
           Navigator.of(context).pop();
-          Navigator.push(context, MaterialPageRoute(builder: (context) => ManageAdmins()));
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => ManageAdmins()));
         },
       ),
       ListTile(
@@ -63,7 +74,8 @@ class HamBurger {
         onTap: () {
           // Public page, anyone can access
           Navigator.of(context).pop();
-          Navigator.push(context, MaterialPageRoute(builder: (context) => ManageRoot()));
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => ManageRoot()));
         },
       ),
       ListTile(

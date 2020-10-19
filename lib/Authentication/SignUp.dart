@@ -28,11 +28,10 @@ class _SignUpState extends State<SignUp> {
   validateAndSubmit() async {
     // Takes keyboard out of focus
     FocusScope.of(context).unfocus();
-    if(validateAndSave()) {
+    if (validateAndSave()) {
       await auth.signUp(name.trim(), email.trim(), password.trim());
     }
   }
-
 
   @override
   void initState() {
@@ -69,21 +68,19 @@ class _SignUpState extends State<SignUp> {
       TextFormField(
         keyboardType: TextInputType.text,
         decoration: InputDecoration(
-          labelText: 'Name',
-          suffixIcon: Icon(MdiIcons.account)
-        ),
+            labelText: 'Name', suffixIcon: Icon(MdiIcons.account)),
         validator: (value) {
           return value.isEmpty ? "Name is required" : null;
         },
         onSaved: (value) => name = value,
       ),
-      SizedBox(height: 15,),
+      SizedBox(
+        height: 15,
+      ),
       TextFormField(
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
-          labelText: 'Email',
-          suffixIcon: Icon(MdiIcons.email)
-        ),
+            labelText: 'Email', suffixIcon: Icon(MdiIcons.email)),
         validator: (value) {
           return value.isEmpty ? "Email is required" : null;
         },
@@ -92,17 +89,15 @@ class _SignUpState extends State<SignUp> {
       SizedBox(height: 15),
       TextFormField(
         decoration: InputDecoration(
-            labelText: 'Password', 
+            labelText: 'Password',
             suffixIcon: IconButton(
-                          icon: Icon(
-                isHidden ? Icons.visibility : Icons.visibility_off),
-                onPressed: () {
-                  setState(() {
-                    isHidden = !isHidden;
-                  });
-                },
-            )
-            ),
+              icon: Icon(isHidden ? Icons.visibility : Icons.visibility_off),
+              onPressed: () {
+                setState(() {
+                  isHidden = !isHidden;
+                });
+              },
+            )),
         obscureText: isHidden,
         validator: (value) {
           if (value.isEmpty)
@@ -119,12 +114,18 @@ class _SignUpState extends State<SignUp> {
         width: width,
         child: RaisedButton(
           color: Colors.blue,
-          child: Text('Sign up',style: TextStyle(color: Colors.white)),
+          child: Text('Sign up', style: TextStyle(color: Colors.white)),
           onPressed: validateAndSubmit,
         ),
       ),
-      SizedBox(height: 10,),
-      Center(child: Text('Make sure you verify your email before login',style: TextStyle(fontWeight: FontWeight.bold),))
+      SizedBox(
+        height: 10,
+      ),
+      Center(
+          child: Text(
+        'Make sure you verify your email before login',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ))
     ];
   }
 }

@@ -8,6 +8,7 @@ class AllFeedbacks extends StatefulWidget {
   @override
   _AllFeedbacksState createState() => _AllFeedbacksState();
 }
+
 // 1589343729
 class _AllFeedbacksState extends State<AllFeedbacks> {
   bool isAdmin, isRoot;
@@ -27,22 +28,24 @@ class _AllFeedbacksState extends State<AllFeedbacks> {
     return isAdmin;
   }
   // Initial logic ends
-  
+
   // UI code starts
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('All Feedbacks'),centerTitle: true,),
-      body: FutureBuilder(
-        future: getUserData(),
-        builder: (context, snapshot) {
-          if(snapshot.hasData) {
-            return rootContent();
-          } else {
-            return Loading();
-          }
-        }
+      appBar: AppBar(
+        title: Text('All Feedbacks'),
+        centerTitle: true,
       ),
+      body: FutureBuilder(
+          future: getUserData(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return rootContent();
+            } else {
+              return Loading();
+            }
+          }),
     );
   }
 
@@ -64,7 +67,7 @@ class _AllFeedbacksState extends State<AllFeedbacks> {
                     child: Text('No active feedbacks'),
                   );
                 }
-                
+
                 // Snapshot contains documents, so return ListView
                 return ListView.separated(
                   separatorBuilder: (context, index) =>

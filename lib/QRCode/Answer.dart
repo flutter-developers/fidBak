@@ -67,7 +67,7 @@ class _AnswerState extends State<Answer> {
     instantiate();
   }
   // Initial code ends
-  
+
   // UI code starts
   @override
   Widget build(BuildContext context) {
@@ -77,11 +77,12 @@ class _AnswerState extends State<Answer> {
     else if (data == 'Error')
       return stopUser('Feedback no longer exists'); // Not a valid document ID
     else if (data['attended'].contains(email))
-      return stopUser('Can\'t give feedback more than once'); // User already gave the feedback
-    else if(data['restricted']==true && !data['attenders'].contains(email)) {
-      return stopUser('You\'re not allowed to answer this feedback'); // Feedback is restricted to limited users
-    }
-    else
+      return stopUser(
+          'Can\'t give feedback more than once'); // User already gave the feedback
+    else if (data['restricted'] == true && !data['attenders'].contains(email)) {
+      return stopUser(
+          'You\'re not allowed to answer this feedback'); // Feedback is restricted to limited users
+    } else
       return fetchDocument(width); // User is allowed to give the feedback
   }
 
@@ -195,7 +196,7 @@ class _AnswerState extends State<Answer> {
     pr.style(message: 'Submitting response');
     pr.show();
     var ref = Firestore.instance.collection('/feedbacks').document(widget.data);
-    
+
     // Following transaction uploads the user response
     Firestore.instance.runTransaction((tx) async {
       await ref.get().then((doc) {
@@ -228,8 +229,7 @@ class _AnswerState extends State<Answer> {
     }).catchError((e) {
       pr.hide();
       print(e);
-      if(e == 'Error')
-      uploadFeedback(context);
+      if (e == 'Error') uploadFeedback(context);
     });
   }
 }

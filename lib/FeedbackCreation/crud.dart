@@ -6,7 +6,6 @@ import 'package:flutter/widgets.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
 class CrudMethods {
-
   // addData, getData, updateData
   postFeedback(context, feedback) {
     // Start showing progress indicator
@@ -34,11 +33,13 @@ class CrudMethods {
       pr.hide();
       // Redirect to QR code generator screen
       Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => GenerateScreen(docID: doc.documentID,name: feedback.name,id: uniqueId,)
-        )
-      );
+          context,
+          MaterialPageRoute(
+              builder: (context) => GenerateScreen(
+                    docID: doc.documentID,
+                    name: feedback.name,
+                    id: uniqueId,
+                  )));
     }).catchError((e) {
       print(e);
       AwesomeDialog(
@@ -53,6 +54,4 @@ class CrudMethods {
           }).show();
     });
   }
-  
-  
 }

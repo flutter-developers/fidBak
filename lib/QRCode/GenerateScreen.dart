@@ -45,7 +45,7 @@ class GenerateScreenState extends State<GenerateScreen> {
       body: _contentWidget(),
     );
   }
-  
+
   _contentWidget() {
     // final width = MediaQuery.of(context).size.width;
     final bodyHeight = MediaQuery.of(context).size.height -
@@ -136,7 +136,7 @@ class GenerateScreenState extends State<GenerateScreen> {
           globalKey.currentContext.findRenderObject();
       var image = await boundary.toImage();
       // image contains the QR Code image now
-      
+
       ByteData byteData = await image.toByteData(format: ImageByteFormat.png);
       Uint8List pngBytes = byteData.buffer.asUint8List();
 
@@ -160,7 +160,7 @@ class GenerateScreenState extends State<GenerateScreen> {
           globalKey.currentContext.findRenderObject();
       var image = await boundary.toImage();
       // image contains the QR Code image now
-      
+
       ByteData byteData = await image.toByteData(format: ImageByteFormat.png);
       Uint8List pngBytes = byteData.buffer.asUint8List();
 
@@ -186,7 +186,7 @@ class GenerateScreenState extends State<GenerateScreen> {
       print(e.toString());
     }
   }
-  
+
   requestPermissions() async {
     if (Platform.isAndroid) {
       await Permission.storage.isGranted.then((status) {

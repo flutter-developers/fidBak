@@ -1,8 +1,15 @@
+import 'dart:math';
+
 class Stats {
   String docId;
   var data;
 
   Stats(this.docId, this.data);
+
+  double roundDouble(double value, int places) {
+    double mod = pow(10.0, places);
+    return ((value * mod).round().toDouble() / mod);
+  }
 
   getAverageScores() {
     return data['average'];
@@ -33,13 +40,14 @@ class Stats {
       var responses = 0;
       for (int j = 0; j < values.length; j++) {
         obtained += values[j] * (j + 1);
-        responses = values[j];
+        responses += values[j];
       }
       total += values.length * responses;
     }
-    if(total == 0) return 0.0;
-    print(obtained / total);
-    return obtained / total;
+    if (total == 0) return 0.0;
+    double percentage = obtained / total;
+    print(roundDouble(percentage, 2));
+    return roundDouble(percentage, 2);
   }
 
   getScoresForIndex(index) {

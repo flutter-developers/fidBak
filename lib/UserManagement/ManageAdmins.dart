@@ -163,8 +163,8 @@ class _ManageAdminsState extends State<ManageAdmins> {
         .collection('/users')
         .where('email', isEqualTo: newAdminEmail)
         .getDocuments();
-        
-    if(newAdminEmail == null) {
+
+    if (newAdminEmail == null) {
       Fluttertoast.showToast(msg: 'Please enter Email ID');
       return;
     }
