@@ -2,7 +2,6 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:fidbak/QRCode/GenerateScreen.dart';
 import 'package:fidbak/Stats/NormalStats.dart';
 import 'package:fidbak/Stats/PositivityMeter.dart';
-import 'package:fidbak/Stats/ViewStatistics.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';

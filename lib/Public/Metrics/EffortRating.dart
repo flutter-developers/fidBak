@@ -3,6 +3,7 @@ import 'package:grouped_buttons/grouped_buttons.dart';
 
 import 'QuestionAndResponse.dart';
 
+// ignore: must_be_immutable
 class EffortRatingMeter extends StatefulWidget {
   QuestionAndResponse questionAndResponse;
 

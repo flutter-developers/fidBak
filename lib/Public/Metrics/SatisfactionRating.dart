@@ -3,6 +3,7 @@ import 'package:flutter_fluid_slider/flutter_fluid_slider.dart';
 
 import 'QuestionAndResponse.dart';
 
+// ignore: must_be_immutable
 class SatisafactionRatingMeter extends StatefulWidget {
   QuestionAndResponse questionAndResponse;
 

@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 
 import 'QuestionAndResponse.dart';
 
+// ignore: must_be_immutable
 class GoalCompletionRateMeter extends StatefulWidget {
   QuestionAndResponse questionAndResponse;
 

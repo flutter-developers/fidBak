@@ -5,6 +5,7 @@ import 'package:percent_indicator/percent_indicator.dart';
 
 import 'StatisticsUtil.dart';
 
+// ignore: must_be_immutable
 class PositivityMeter extends StatefulWidget {
   String docId;
 

@@ -3,6 +3,7 @@ import 'package:reviews_slider/reviews_slider.dart';
 
 import 'QuestionAndResponse.dart';
 
+// ignore: must_be_immutable
 class SmileyRatingMeter extends StatefulWidget {
   QuestionAndResponse questionAndResponse;
 

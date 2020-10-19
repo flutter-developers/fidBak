@@ -82,7 +82,7 @@ class HamBurger {
           title: Text('Logout'),
           onTap: () {
             auth.signOut();
-          })
+          }),
     ];
   }
 }
