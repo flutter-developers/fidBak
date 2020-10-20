@@ -72,7 +72,7 @@ class _AnswerState extends State<Answer> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    if (data == null)
+    if (data == null || email == null)
       return SpinKitThreeBounce(color: Colors.blue); // Data is still loading
     else if (data == 'Error')
       return stopUser('Feedback no longer exists'); // Not a valid document ID
