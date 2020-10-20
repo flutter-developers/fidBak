@@ -38,9 +38,16 @@ class Stats {
     for (int i = 0; i < scores.length; i++) {
       var values = scores[i.toString()];
       var responses = 0;
-      for (int j = 0; j < values.length; j++) {
-        obtained += values[j] * (j + 1);
-        responses += values[j];
+      if (values.length == 3) {
+        for (int j = 0; j < values.length; j++) {
+          obtained += values[j] * (4 - (j + 1));
+          responses += values[j];
+        }
+      } else {
+        for (int j = 0; j < values.length; j++) {
+          obtained += values[j] * (j + 1);
+          responses += values[j];
+        }
       }
       total += values.length * responses;
     }
